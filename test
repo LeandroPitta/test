@@ -1,72 +1,161 @@
-[INFO] Compiling 73 source files with javac [debug parameters release 25] to target\classes
-WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
-WARNING: sun.misc.Unsafe::objectFieldOffset has been called by lombok.permit.Permit
-WARNING: Please consider reporting this to the maintainers of class lombok.permit.Permit
-WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
-[INFO] 
-[INFO] --- resources:3.3.1:testResources (default-testResources) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] skip non existing resourceDirectory C:\Desenvolvimento\github\study\leandro-pitta-techlead-arquiteturas-java-quarkus\src\test\resources
-[INFO] 
-[INFO] --- quarkus:3.36.1:generate-code-tests (default-generate-code-tests) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] 
-[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] Recompiling the module because of changed dependency.
-[INFO] Compiling 4 source files with javac [debug parameters release 25] to target\test-classes
-[INFO] 
-[INFO] --- surefire:3.5.6:test (default-test) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
-[INFO] 
-[INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
-[INFO] Running br.gov.caixa.leandropitta.arquiteturareferencia.ArquiteturaReferenciaDomainTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.096 s -- in br.gov.caixa.leandropitta.arquiteturareferencia.ArquiteturaReferenciaDomainTest
-[INFO] Running br.gov.caixa.leandropitta.arquiteturareferencia.ArquiteturaReferenciaInterfaceTest
-Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
-WARNING: A Java agent has been loaded dynamically (C:\Users\c107051\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.8\byte-buddy-agent-1.18.8.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.319 s -- in br.gov.caixa.leandropitta.arquiteturareferencia.ArquiteturaReferenciaInterfaceTest
-[INFO] Running br.gov.caixa.leandropitta.arquiteturareferencia.ArquiteturaReferenciaRepositoryTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in br.gov.caixa.leandropitta.arquiteturareferencia.ArquiteturaReferenciaRepositoryTest
+[INFO] Running br.gov.caixa.leandropitta.integration.IntegrationIT
+2026-06-12 02:07:47,572 INFO  [org.hibernate.orm.jpa] (main) HHH008540: Processing PersistenceUnitInfo [name: <default>]
+2026-06-12 02:07:47,767 INFO  [org.hibernate.orm.core] (main) HHH000001: Hibernate ORM core version 7.3.6.Final
+2026-06-12 02:07:47,977 INFO  [org.hibernate.orm.connections.pooling] (main) HHH10001005: Database info:
+	Database JDBC URL [undefined/unknown]
+	Database driver: undefined/unknown
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: unknown/unknown
+	Autocommit mode: undefined/unknown
+	Isolation level: <unknown>
+	JDBC fetch size: undefined/unknown
+	Pool: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-12 02:07:48,158 INFO  [org.hibernate.validator.internal.util.Version] (main) HV000001: Hibernate Validator 9.1.0.Final
+2026-06-12 02:07:48,687 WARN  [io.quarkus.config] (main) The "quarkus.hibernate-orm.database.generation" config property is deprecated and should not be used anymore.
+2026-06-12 02:07:50,102 INFO  [io.quarkus] (main) leandro-pitta-techlead-arquiteturas-java-quarkus 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.36.1) started in 6.708s. Listening on: http://localhost:8095
+2026-06-12 02:07:50,103 INFO  [io.quarkus] (main) Profile test activated. 
+2026-06-12 02:07:50,103 INFO  [io.quarkus] (main) Installed features: [agroal, cdi, compose, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-h2, narayana-jta, rest, rest-client, rest-client-jackson, rest-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
+Request method:	POST
+Request URI:	http://localhost:8095/sistemas-corporativos
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "nome": " ",
+    "status": "ATIVO",
+    "sigla": "SIG110944",
+    "criticidade": "MEDIA",
+    "areaResponsavel": "Arquitetura"
+}
+
+HTTP/1.1 404 Not Found
+content-type: text/html; charset=utf-8
+content-length: 53
+
+<html>
+  <body>
+    <h1>Resource not found</h1>
+  </body>
+</html>
+Request method:	POST
+Request URI:	http://localhost:8095/arquiteturas-referencia
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "nome": "Arquitetura Ativa 11095518568400",
+    "status": "ATIVA",
+    "tecnologiasRecomendadas": [
+        {
+            "nome": "Java",
+            "observacoes": "Base do ecossistema",
+            "situacaoUso": "RECOMENDADA",
+            "versaoRecomendada": "25",
+            "categoria": "Linguagem"
+        }
+    ],
+    "tipoArquitetura": "MONOLITO",
+    "descricao": "Descricao Arquitetura Ativa 11095518568400"
+}
+
+HTTP/1.1 404 Not Found
+content-type: text/html; charset=utf-8
+content-length: 53
+
+<html>
+  <body>
+    <h1>Resource not found</h1>
+  </body>
+</html>
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 4.287 s <<< FAILURE! -- in br.gov.caixa.leandropitta.integration.IntegrationIT
+[ERROR] br.gov.caixa.leandropitta.integration.IntegrationIT.deveRetornarErrosPadronizados400E404 -- Time elapsed: 1.409 s <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <404>.
+
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure.validate(ResponseSpecificationImpl.groovy:516)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl.validateResponseIfRequired(ResponseSpecificationImpl.groovy:714)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:139)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:147)
+	at io.restassured.internal.ValidatableResponseOptionsImpl.statusCode(ValidatableResponseOptionsImpl.java:89)
+	at br.gov.caixa.leandropitta.integration.IntegrationIT.deveRetornarErrosPadronizados400E404(IntegrationIT.java:155)
+
+[ERROR] br.gov.caixa.leandropitta.integration.IntegrationIT.deveExecutarFluxoPrincipalComRegrasDeNegocio -- Time elapsed: 0.044 s <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <201> but was <404>.
+
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure.validate(ResponseSpecificationImpl.groovy:516)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl.validateResponseIfRequired(ResponseSpecificationImpl.groovy:714)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:139)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:147)
+	at io.restassured.internal.ValidatableResponseOptionsImpl.statusCode(ValidatableResponseOptionsImpl.java:89)
+	at br.gov.caixa.leandropitta.integration.IntegrationIT.cadastrarArquitetura(IntegrationIT.java:205)
+	at br.gov.caixa.leandropitta.integration.IntegrationIT.deveExecutarFluxoPrincipalComRegrasDeNegocio(IntegrationIT.java:23)
+
+2026-06-12 02:07:51,617 INFO  [io.quarkus] (main) leandro-pitta-techlead-arquiteturas-java-quarkus stopped in 0.030s
 [INFO] 
 [INFO] Results:
 [INFO] 
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[ERROR] Failures: 
+[ERROR]   IntegrationIT.deveExecutarFluxoPrincipalComRegrasDeNegocio:23->cadastrarArquitetura:205 1 expectation failed.
+Expected status code <201> but was <404>.
+
+[ERROR]   IntegrationIT.deveRetornarErrosPadronizados400E404:155 1 expectation failed.
+Expected status code <400> but was <404>.
+
 [INFO] 
+[ERROR] Tests run: 2, Failures: 2, Errors: 0, Skipped: 0
 [INFO] 
-[INFO] --- quarkus:3.36.1:build (default-build) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] [io.quarkus.deployment.QuarkusAugmentor] Quarkus augmentation completed in 20543ms
-[INFO] 
-[INFO] --- failsafe:3.5.6:integration-test (default) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] Tests are skipped.
 [INFO] 
 [INFO] --- quarkus:3.36.1:native-image-agent (default-native-image-agent) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
 [INFO] 
 [INFO] --- quarkus:3.36.1:build-enhanced-artifact (default-build-enhanced-artifact) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
 [INFO] 
 [INFO] --- failsafe:3.5.6:verify (default) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] Tests are skipped.
-[INFO] 
-[INFO] --- jacoco:0.8.14:report (report) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
-[INFO] Loading execution data file C:\Desenvolvimento\github\study\leandro-pitta-techlead-arquiteturas-java-quarkus\target\jacoco.exec
-[INFO] Analyzed bundle 'leandro-pitta-techlead-arquiteturas-java-quarkus' with 66 classes
-[INFO] 
-[INFO] --- jacoco:0.8.14:check (check) @ leandro-pitta-techlead-arquiteturas-java-quarkus ---
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  36.132 s
-[INFO] Finished at: 2026-06-11T22:53:00-03:00
+[INFO] Total time:  42.399 s
+[INFO] Finished at: 2026-06-12T02:07:52-03:00
 [INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.jacoco:jacoco-maven-plugin:0.8.14:check (check) on project leandro-pitta-techlead-arquiteturas-java-quarkus: Unable to parse configuration of mojo org.jacoco:jacoco-maven-plugin:0.8.14:check for parameter element: Cannot find default setter in class org.jacoco.maven.RuleConfiguration -> [Help 1]
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-failsafe-plugin:3.5.6:verify (default) on project leandro-pitta-techlead-arquiteturas-java-quarkus: There are test failures.
+[ERROR] 
+[ERROR] See C:\Desenvolvimento\github\study\leandro-pitta-techlead-arquiteturas-java-quarkus\target\failsafe-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
 [ERROR] 
 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
 [ERROR] 
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginConfigurationException
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
 
 Process finished with exit code 1
