@@ -1,0 +1,230 @@
+package br.gov.caixa.leandropitta.integration;
+
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.AdditionalMatchers.not;
+
+@QuarkusTest
+class IntegrationIT {
+
+    @Test
+    void deveExecutarFluxoPrincipalComRegrasDeNegocio() {
+        String sufixo = String.valueOf(System.nanoTime());
+
+        Long arquiteturaAtivaId = cadastrarArquitetura("Arquitetura Ativa " + sufixo, "ATIVA");
+        Long arquiteturaInativaId = cadastrarArquitetura("Arquitetura Inativa " + sufixo, "INATIVA");
+
+        Long sistemaAId = cadastrarSistema("Sistema A " + sufixo, "S" + sufixo.substring(0, 8));
+        Long sistemaBId = cadastrarSistema("Sistema B " + sufixo, "T" + sufixo.substring(0, 8));
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "nome", "Sistema duplicado " + sufixo,
+                        "sigla", "S" + sufixo.substring(0, 8),
+                        "areaResponsavel", "Arquitetura",
+                        "criticidade", "ALTA",
+                        "status", "ATIVO"))
+                .when()
+                .post("/sistemas-corporativos")
+                .then()
+                .statusCode(409)
+                .body("codigo", equalTo("CONFLITO_NEGOCIO"));
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "identificadorSistemaCorporativo", sistemaAId,
+                        "identificadorArquiteturaReferencia", arquiteturaAtivaId,
+                        "nivelAderencia", "NAO_AVALIADO",
+                        "responsavelAvaliacao", "Time Arquitetura",
+                        "dataAvaliacao", LocalDateTime.parse("2026-06-10T10:15:30").toString()))
+                .when()
+                .post("/classificacoes-arquiteturais")
+                .then()
+                .statusCode(201)
+                .body("identificador", greaterThanOrEqualTo(1))
+                .body("identificadorSistemaCorporativo", equalTo(sistemaAId.intValue()))
+                .body("identificadorArquiteturaReferencia", equalTo(arquiteturaAtivaId.intValue()));
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "identificadorSistemaCorporativo", sistemaAId,
+                        "identificadorArquiteturaReferencia", arquiteturaAtivaId,
+                        "nivelAderencia", "NAO_AVALIADO",
+                        "responsavelAvaliacao", "Time Arquitetura",
+                        "dataAvaliacao", LocalDateTime.parse("2026-06-10T10:15:30").toString()))
+                .when()
+                .post("/classificacoes-arquiteturais")
+                .then()
+                .statusCode(409)
+                .body("codigo", equalTo("CONFLITO_NEGOCIO"));
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "identificadorSistemaCorporativo", sistemaBId,
+                        "identificadorArquiteturaReferencia", arquiteturaInativaId,
+                        "nivelAderencia", "ADERENTE",
+                        "responsavelAvaliacao", "Time Arquitetura",
+                        "dataAvaliacao", LocalDateTime.parse("2026-06-10T10:15:30").toString()))
+                .when()
+                .post("/classificacoes-arquiteturais")
+                .then()
+                .statusCode(409)
+                .body("codigo", equalTo("CONFLITO_NEGOCIO"));
+
+        Integer classificacaoId = given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "identificadorSistemaCorporativo", sistemaBId,
+                        "identificadorArquiteturaReferencia", arquiteturaAtivaId,
+                        "nivelAderencia", "PARCIALMENTE_ADERENTE",
+                        "justificativa", "Dependencia legada em migracao",
+                        "responsavelAvaliacao", "Time Arquitetura",
+                        "dataAvaliacao", LocalDateTime.parse("2026-06-10T12:00:00").toString()))
+                .when()
+                .post("/classificacoes-arquiteturais")
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("identificador");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "nivelAderencia", "NAO_ADERENTE",
+                        "justificativa", "Bloqueio tecnico identificado",
+                        "responsavelAvaliacao", "Governanca",
+                        "dataAvaliacao", LocalDateTime.parse("2026-06-10T13:00:00").toString()))
+                .when()
+                .put("/classificacoes-arquiteturais/{id}", classificacaoId)
+                .then()
+                .statusCode(200)
+                .body("nivelAderencia", equalTo("NAO_ADERENTE"));
+
+        given()
+                .when()
+                .get("/classificacoes-arquiteturais/arquiteturas/{id}/sistemas", arquiteturaAtivaId)
+                .then()
+                .statusCode(200)
+                .body("identificadorSistemaCorporativo", hasItem(sistemaAId.intValue()))
+                .body("identificadorSistemaCorporativo", hasItem(sistemaBId.intValue()));
+
+        given()
+                .when()
+                .get("/classificacoes-arquiteturais/sistemas-sem-classificacao")
+                .then()
+                .statusCode(200)
+                .body("identificadorSistemaCorporativo", not(hasItem(sistemaAId.intValue())))
+                .body("identificadorSistemaCorporativo", not(hasItem(sistemaBId.intValue())));
+
+        given()
+                .when()
+                .patch("/arquiteturas-referencia/{id}/inativar", arquiteturaAtivaId)
+                .then()
+                .statusCode(200)
+                .body("status", equalTo("INATIVA"));
+    }
+
+    @Test
+    void deveRetornarErrosPadronizados400E404() {
+        String sufixo = String.valueOf(System.nanoTime());
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "nome", " ",
+                        "sigla", "SIG" + sufixo.substring(0, 6),
+                        "areaResponsavel", "Arquitetura",
+                        "criticidade", "MEDIA",
+                        "status", "ATIVO"))
+                .when()
+                .post("/sistemas-corporativos")
+                .then()
+                .statusCode(400)
+                .body("status", equalTo(400));
+
+        given()
+                .when()
+                .get("/sistemas-corporativos/{id}", 999_999L)
+                .then()
+                .statusCode(404)
+                .body("codigo", equalTo("RECURSO_NAO_ENCONTRADO"));
+
+        given()
+                .when()
+                .get("/arquiteturas-referencia/{id}", 999_999L)
+                .then()
+                .statusCode(404)
+                .body("codigo", equalTo("RECURSO_NAO_ENCONTRADO"));
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "nivelAderencia", "PARCIALMENTE_ADERENTE",
+                        "justificativa", "",
+                        "responsavelAvaliacao", "Pessoa",
+                        "dataAvaliacao", LocalDateTime.parse("2026-06-10T13:00:00").toString()))
+                .when()
+                .put("/classificacoes-arquiteturais/{id}", 999_999L)
+                .then()
+                .statusCode(404)
+                .body("codigo", equalTo("RECURSO_NAO_ENCONTRADO"));
+    }
+
+    private Long cadastrarArquitetura(String nome, String status) {
+        Integer identificador = given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "nome", nome,
+                        "descricao", "Descricao " + nome,
+                        "tipoArquitetura", "MONOLITO",
+                        "status", status,
+                        "tecnologiasRecomendadas", new Object[] {
+                                Map.of(
+                                        "nome", "Java",
+                                        "categoria", "Linguagem",
+                                        "versaoRecomendada", "25",
+                                        "situacaoUso", "RECOMENDADA",
+                                        "observacoes", "Base do ecossistema")
+                        }))
+                .when()
+                .post("/arquiteturas-referencia")
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("identificador");
+
+        return identificador.longValue();
+    }
+
+    private Long cadastrarSistema(String nome, String sigla) {
+        Integer identificador = given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "nome", nome,
+                        "sigla", sigla,
+                        "areaResponsavel", "Arquitetura Corporativa",
+                        "criticidade", "ALTA",
+                        "status", "ATIVO"))
+                .when()
+                .post("/sistemas-corporativos")
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("identificador");
+
+        return identificador.longValue();
+    }
+}
